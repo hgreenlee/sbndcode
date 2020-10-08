@@ -113,7 +113,6 @@ class ana::PFPValidation : public art::EDAnalyzer {
       float mHitSPRatio, mTrackScore;
 
       bool operator>(const TruthMatch& match) const {return mHitComp > match.mHitComp;}
-
     };
 
   private:
@@ -125,6 +124,8 @@ class ana::PFPValidation : public art::EDAnalyzer {
     art::ServiceHandle<cheat::ParticleInventoryService> particleInventory;
 
     // Declare member data here.
+    unsigned int maxLabelLength;
+
     TTree* trueTree;
     TTree* pfpTree;
     TTree* eventTree;
@@ -147,11 +148,18 @@ class ana::PFPValidation : public art::EDAnalyzer {
 
 ana::PFPValidation::PFPValidation(fhicl::ParameterSet const& pset)
   : EDAnalyzer{pset}
+  , fHitLabel(pset.get<std::string>("HitLabel"))
+  , fGenieGenModuleLabel(pset.get<std::string>("GenieGenModuleLabel"))
+  , fLArGeantModuleLabel(pset.get<std::string>("LArGeantModuleLabel"))
+  , fPFParticleLabels(pset.get<std::vector<std::string> >("PFParticleLabels"))
+  , maxLabelLength(0)
 {
-  fHitLabel            = pset.get<std::string>("HitLabel");
-  fGenieGenModuleLabel = pset.get<std::string>("GenieGenModuleLabel");
-  fPFParticleLabels    = pset.get<std::vector<std::string> >("PFParticleLabels");
-  fLArGeantModuleLabel = pset.get<std::string>("LArGeantModuleLabel");
+
+  for (std::string const& fPFParticleLabel: fPFParticleLabels){
+    if (fPFParticleLabel.length() > maxLabelLength){
+      maxLabelLength = fPFParticleLabel.length();
+    }
+  }
 }
 
 void ana::PFPValidation::beginJob() {
@@ -202,6 +210,8 @@ void ana::PFPValidation::beginJob() {
 
 void ana::PFPValidation::analyze(art::Event const& evt)
 {
+
+  std::cout << std::setprecision(2) << std::fixed;
 
   // Get the true g4 particles and make a map form trackId
   std::map<int,const simb::MCParticle*> trueParticles;
@@ -482,8 +492,13 @@ void ana::PFPValidation::analyze(art::Event const& evt)
         recoTrackScore[fPFParticleLabel] = bestMatch.mTrackScore;
       }
       if (trueProcess=="primary"){
-        std::cout << "  " << fPFParticleLabel << ": and reco pdg: "<<recoPdg[fPFParticleLabel]
-          << " and Track Score : " << recoTrackScore[fPFParticleLabel] << std::endl;
+        std::cout << "  " << std::setw(maxLabelLength) << fPFParticleLabel
+          << ": particles: " << pfpTracks + pfpShowers << "(" << pfpTracks << "+" << pfpShowers << ")"
+          << " and reco pdg: " << bestMatch.mRecoPdg
+          << " and Comp: " << bestMatch.mHitComp
+          << " and Purity: " << bestMatch.mHitPurity
+          << " and Track Score: " << bestMatch.mTrackScore
+          << std::endl;
 
         if (truePdg==2212 && recoPdg[fPFParticleLabel]==11){
           std::cout << "TEST123: " << evt.id() << std::endl;

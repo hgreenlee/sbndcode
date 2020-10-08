@@ -205,7 +205,7 @@ void ana::PFPSliceValidation::analyze(art::Event const& evt)
 {
   ClearEventTree();
 
-        std::cout << std::setprecision(1) << std::fixed;
+  std::cout << std::setprecision(1) << std::fixed;
   // Get the truths in the event:
   const std::vector<art::Ptr<simb::MCTruth> > truthVec = particleInventory->MCTruthVector_Ps();
   for (auto const& truth: truthVec){
