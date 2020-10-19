@@ -9,3 +9,10 @@ process_name: CosmicsCorsikaCMCGenAndG4InTime
 physics.filters.filter: @local::sbnd_filtergenintime
 physics.simulate: [ generator, filter, rns ]
 outputs.out1.SelectEvents: [ "simulate" ]
+
+services.SpaceCharge.EnableCalSpatialSCE: true
+services.SpaceCharge.EnableSimSpatialSCE: true
+services.SpaceCharge.EnableSimEfieldSCE: true
+services.SpaceCharge.EnableCalEfieldSCE: true
+
+services.SpaceCharge.InputFilename: "SCEoffsets/SCEoffsets_SBND_E500_voxelTH3.root"
