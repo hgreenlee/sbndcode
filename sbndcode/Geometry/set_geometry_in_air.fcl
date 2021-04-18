@@ -1,0 +1,7 @@
+# Include this file at the end of your fcl file to switch
+# to the geometry with with no surroundings
+
+services.Geometry.GDML: "sbnd_v02_00_inair.gdml"
+services.Geometry.ROOT: "sbnd_v02_00_inair.gdml"
+services.AuxDetGeometry.GDML: "sbnd_v02_00_inair.gdml"
+services.AuxDetGeometry.ROOT: "sbnd_v02_00_inair.gdml"
