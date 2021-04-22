@@ -1002,7 +1002,10 @@ bool OverburdenAna::InDetector(art::Ptr<simb::MCParticle> mcp, int & step) {
   auto t = mcp->Trajectory();
   for (size_t i = 0; i < t.size(); i++) {
     if (InDetector(t.X(i), t.Y(i), t.Z(i))) {
-      step = i;
+      step = i - 1;
+      if (step < 0) {
+        step = 0;
+      }
       return true;
     }
   }
