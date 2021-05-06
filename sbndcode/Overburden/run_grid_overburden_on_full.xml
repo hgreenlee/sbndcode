@@ -11,7 +11,7 @@
 <!ENTITY tag "mdeltutt_ob_on_full">
 <!ENTITY file_type "data">
 <!ENTITY run_type "physics">
-<!ENTITY n_submission "1">
+<!ENTITY n_submission "5">
 <!ENTITY PNFSpath "/pnfs/sbnd/resilient/users/mdeltutt/">
 ]>
 
@@ -22,8 +22,8 @@
   <group>sbnd</group>
 
   <!-- Project size -->
-  <numevents>10000</numevents>
-  <!-- <numevents>200000</numevents> -->
+  <!-- <numevents>10000</numevents> -->
+  <numevents>200000</numevents>
 
   <!-- Batch resources -->
   <resource>DEDICATED,OPPORTUNISTIC</resource>
@@ -45,11 +45,11 @@
     <maxfilesperjob>1</maxfilesperjob>
     <outdir>/pnfs/sbnd/scratch/users/mdeltutt/&release;/ob_on_full_&config;_&my_version;_&n_submission;</outdir>
     <workdir>&PNFSpath;grid_workdir_sbnd/ob_full_on</workdir>
-    <numjobs>100</numjobs>
-    <!-- <numjobs>1000</numjobs> -->
+    <!-- <numjobs>100</numjobs> -->
+    <numjobs>1000</numjobs>
     <datatier>generated</datatier>
-    <memory>1999</memory>
-    <!-- <memory>2499</memory> -->
+    <!-- <memory>1999</memory> -->
+    <memory>3499</memory>
     <jobsub> --expected-lifetime=8h -Q --generate-email-summary -l +SingularityImage=\"/cvmfs/singularity.opensciencegrid.org/fermilab/fnal-wn-sl7:latest\" --append_condor_requirements='(TARGET.HAS_SINGULARITY=?=true)' </jobsub>
     <disk>10GB</disk>
   </stage>

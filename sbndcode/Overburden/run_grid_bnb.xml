@@ -5,13 +5,13 @@
 <!DOCTYPE project [
 <!ENTITY release "v09_15_00">
 <!ENTITY releasetag "e19:prof">
-<!ENTITY my_version "v4">
+<!ENTITY my_version "v6">
 <!ENTITY config "standard">
-<!ENTITY name "mdeltutt_ob_off_full">
-<!ENTITY tag "mdeltutt_ob_off_full">
+<!ENTITY name "mdeltutt_bnb">
+<!ENTITY tag "mdeltutt_bnb">
 <!ENTITY file_type "data">
 <!ENTITY run_type "physics">
-<!ENTITY n_submission "5">
+<!ENTITY n_submission "1">
 <!ENTITY PNFSpath "/pnfs/sbnd/resilient/users/mdeltutt/">
 ]>
 
@@ -22,8 +22,7 @@
   <group>sbnd</group>
 
   <!-- Project size -->
-  <!-- <numevents>10000</numevents> -->
-  <numevents>200000</numevents>
+  <numevents>900000</numevents>
 
   <!-- Batch resources -->
   <resource>DEDICATED,OPPORTUNISTIC</resource>
@@ -37,21 +36,19 @@
 
   <!-- Project stages -->
 
-  <stage name="full">
-    <fcl>prodcorsika_cosmics_proton_sbnd_0.5ms.fcl</fcl>
+  <stage name="gen">
+    <fcl>prodgenie_bnb_tpc_sbnd.fcl</fcl>
     <fcl>standard_g4_sbnd_ob_off.fcl</fcl>
     <fcl>run_overburdenana.fcl</fcl>
     <defname>&name;_&tag;_gen</defname>
     <maxfilesperjob>1</maxfilesperjob>
-    <outdir>/pnfs/sbnd/scratch/users/mdeltutt/&release;/ob_off_full_&config;_&my_version;_&n_submission;</outdir>
-    <workdir>&PNFSpath;grid_workdir_sbnd/ob_full_off</workdir>
-    <!-- <numjobs>100</numjobs> -->
-    <numjobs>1000</numjobs>
+    <outdir>/pnfs/sbnd/scratch/users/mdeltutt/&release;/bnb_gen_&config;_&my_version;_&n_submission;</outdir>
+    <workdir>&PNFSpath;grid_workdir_sbnd/ob_bnb</workdir>
+    <numjobs>450</numjobs>
     <datatier>generated</datatier>
-    <!-- <memory>1999</memory> -->
-    <memory>3499</memory>
-    <jobsub> --expected-lifetime=8h -Q --generate-email-summary -l +SingularityImage=\"/cvmfs/singularity.opensciencegrid.org/fermilab/fnal-wn-sl7:latest\" --append_condor_requirements='(TARGET.HAS_SINGULARITY=?=true)' </jobsub>
-    <disk>10GB</disk>
+    <memory>2000</memory>
+    <jobsub> --expected-lifetime=20h -Q --generate-email-summary -l +SingularityImage=\"/cvmfs/singularity.opensciencegrid.org/fermilab/fnal-wn-sl7:latest\" --append_condor_requirements='(TARGET.HAS_SINGULARITY=?=true)' </jobsub>
+    <disk>30GB</disk>
   </stage>
 
   <!-- file type -->
