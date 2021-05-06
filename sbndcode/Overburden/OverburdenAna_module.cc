@@ -22,6 +22,7 @@
 #include "messagefacility/MessageLogger/MessageLogger.h"
 
 #include "nusimdata/SimulationBase/MCTruth.h"
+#include "nusimdata/SimulationBase/GTruth.h"
 #include "nusimdata/SimulationBase/MCParticle.h"
 #include "lardataobj/MCBase/MCTrack.h"
 #include "lardataobj/MCBase/MCShower.h"
@@ -88,6 +89,7 @@ private:
   std::string _mctrack_producer = "mcreco";
   std::string _mcshower_producer = "mcreco";
   bool _save_pi0_tree = true;
+  bool _simulating_dirt = false;
 
   // std::vector<std::string> _overburden_volumes = {"volShieldingLid", "volShieldingTop", "volMezzanineLid"};
   std::vector<std::string> _overburden_volumes = {"volShielding"};
@@ -118,6 +120,11 @@ private:
   float _nu_px;
   float _nu_py;
   float _nu_pz;
+  int _nu_pip_mult; ///< Pi0 multiplicity
+  int _nu_pi0_mult; ///< Pi plus multiplicity
+  int _nu_p_mult; ///< Proton multiplicity
+  std::vector<int> _pars_pdg; ///< All other particles produced - pdg code
+  std::vector<float> _pars_e; ///< All other particles produced - energy
 
   std::vector<float> _mcp_px;
   std::vector<float> _mcp_py;
@@ -244,6 +251,9 @@ private:
 OverburdenAna::OverburdenAna(fhicl::ParameterSet const& p)
   : EDProducer{p}
 {
+  _save_pi0_tree = p.get<bool>("SavePi0Tree", true);
+  _simulating_dirt = p.get<bool>("SimulatingDirt", false);
+
   art::ServiceHandle<art::TFileService> fs;
   _tree = fs->make<TTree>("OBTree","");
 
@@ -262,6 +272,11 @@ OverburdenAna::OverburdenAna(fhicl::ParameterSet const& p)
   _tree->Branch("nu_px", &_nu_px, "nu_px/F");
   _tree->Branch("nu_py", &_nu_py, "nu_px/F");
   _tree->Branch("nu_pz", &_nu_pz, "nu_px/F");
+  _tree->Branch("nu_pip_mult", &_nu_pip_mult, "nu_pip_mult/I");
+  _tree->Branch("nu_pi0_mult", &_nu_pi0_mult, "nu_pi0_mult/I");
+  _tree->Branch("nu_p_mult", &_nu_p_mult, "nu_p_mult/I");
+  _tree->Branch("pars_pdg", "std::vector<int>", &_pars_pdg);
+  _tree->Branch("pars_e", "std::vector<float>", &_pars_e);
 
   _tree->Branch("mcp_px", "std::vector<float>", &_mcp_px);
   _tree->Branch("mcp_py", "std::vector<float>", &_mcp_py);
@@ -378,6 +393,21 @@ OverburdenAna::OverburdenAna(fhicl::ParameterSet const& p)
     _pi0_tree->Branch("pi0_genealogy_end_z", "std::vector<float>", &_pi0_genealogy_end_z);
     _pi0_tree->Branch("pi0_genealogy_trackid", "std::vector<float>", &_pi0_genealogy_trackid);
 
+    // Add the neutrino information also to this tree so we can better study pi0s
+    // when looking at beam neutrinos
+    _pi0_tree->Branch("nu_e", &_nu_e, "nu_e/F");
+    _pi0_tree->Branch("nu_pdg", &_nu_pdg, "nu_pdg/I");
+    _pi0_tree->Branch("nu_ccnc", &_nu_ccnc, "nu_ccnc/I");
+    _pi0_tree->Branch("nu_mode", &_nu_mode, "nu_mode/I");
+    _pi0_tree->Branch("nu_vtx_x", &_nu_vtx_x, "nu_vtx_x/F");
+    _pi0_tree->Branch("nu_vtx_y", &_nu_vtx_y, "nu_vtx_y/F");
+    _pi0_tree->Branch("nu_vtx_z", &_nu_vtx_z, "nu_vtx_z/F");
+    _pi0_tree->Branch("nu_pip_mult", &_nu_pip_mult, "nu_pip_mult/I");
+    _pi0_tree->Branch("nu_pi0_mult", &_nu_pi0_mult, "nu_pi0_mult/I");
+    _pi0_tree->Branch("nu_p_mult", &_nu_p_mult, "nu_p_mult/I");
+    _pi0_tree->Branch("pars_pdg", "std::vector<int>", &_pars_pdg);
+    _pi0_tree->Branch("pars_e", "std::vector<float>", &_pars_e);
+
   }
 
   _sr_tree = fs->make<TTree>("pottree","");
@@ -430,6 +460,18 @@ void OverburdenAna::produce(art::Event& e)
   // std::cout << "NEW Is {0, 800, 100} in the volCryostat? " << (filter->mustKeep(Point_t{{0, 800, 100}}) ? "YES" : "NO") << std::endl;
 
 
+  // art::Handle<std::vector<simb::GTruth>> gt_h;
+  // e.getByLabel(_mctruth_producer, gt_h);
+  // if(gt_h.isValid()){
+
+  //   std::vector<art::Ptr<simb::GTruth>> gt_v;
+  //   art::fill_ptr_vector(gt_v, gt_h);
+
+  //   for (size_t i = 0; i < gt_v.size(); i++) {
+  //     std::cout << *gt_v[i] << std::endl;
+  //   }
+  // }
+
   //
   // MCTruth
   //
@@ -463,6 +505,37 @@ void OverburdenAna::produce(art::Event& e)
       _nu_px = mct_v[i]->GetNeutrino().Nu().Px();
       _nu_py = mct_v[i]->GetNeutrino().Nu().Py();
       _nu_pz = mct_v[i]->GetNeutrino().Nu().Pz();
+
+      // Do not save neutrinos interacting in the detector if we are using a dirt sample
+      if (_simulating_dirt && InDetector(_nu_vtx_x, _nu_vtx_y, _nu_vtx_z)) {
+        return;
+      }
+
+      _pars_pdg.clear();
+      _pars_e.clear();
+      _nu_pip_mult = 0;
+      _nu_pi0_mult = 0;
+      _nu_p_mult = 0; 
+
+      for (int p = 0; p < mct_v[i]->NParticles(); p++) {
+        auto const & mcp = mct_v[i]->GetParticle(p);
+
+        if (mcp.StatusCode() != 1) continue;
+
+        _pars_pdg.push_back(mcp.PdgCode());
+        _pars_e.push_back(mcp.E());
+
+        if (mcp.PdgCode() == 111) {
+          _nu_pi0_mult++;
+          std::cout << "There is a GENIE pi0 with energy " << mcp.E() << std::endl;
+        } else if (std::abs(mcp.PdgCode()) == 211) {
+          _nu_pip_mult++;
+        }
+        else if (std::abs(mcp.PdgCode()) == 2112) {
+          _nu_p_mult++;
+        }
+      }
+      std::cout << "_nu_e " << _nu_e << std::endl;
     }
   } else {
     std::cout << "MCTruth product " << _mctruth_producer << " not found..." << std::endl;
@@ -475,7 +548,8 @@ void OverburdenAna::produce(art::Event& e)
   e.getByLabel(_mcparticle_producer, mcp_h);
   if(!mcp_h.isValid()){
     std::cout << "MCParticle product " << _mcparticle_producer << " not found..." << std::endl;
-    throw std::exception();
+    _tree->Fill();
+    return;
   }
 
   std::vector<art::Ptr<simb::MCParticle>> mcp_v;
@@ -723,11 +797,18 @@ void OverburdenAna::SavePi0ShowerInfo(int pi0_track_id) {
   _pi0_par_end_z = pi0_mcp.EndZ();
 
   // Get the pi0 mother MCParticle
-  iter = _trackid_to_mcparticle.find(pi0_mcp.Mother());
-  if (iter == _trackid_to_mcparticle.end()) {
-    return;
+  simb::MCParticle pi0_mother_mcp;
+  if (pi0_mcp.Mother() == 0) {
+    // Use itself if this pi0 is a primary
+    pi0_mother_mcp = pi0_mcp;
+  } else {
+    iter = _trackid_to_mcparticle.find(pi0_mcp.Mother());
+    if (iter == _trackid_to_mcparticle.end()) {
+      return;
+    }
+    pi0_mother_mcp = iter->second;
   }
-  simb::MCParticle pi0_mother_mcp = iter->second;
+
   _pi0_par_mother_pdg = pi0_mother_mcp.PdgCode();
   _pi0_par_mother_e = pi0_mother_mcp.E();
   _pi0_par_mother_end_e = pi0_mother_mcp.EndE();

@@ -2,8 +2,9 @@ BEGIN_PROLOG
 
 overburdenana:
 {
-  module_type:   "OverburdenAna"
-  Dummy:         "dummy"
+  module_type:    "OverburdenAna"
+  SavePi0Tree:    true
+  SimulatingDirt: false
 }
 
 END_PROLOG
