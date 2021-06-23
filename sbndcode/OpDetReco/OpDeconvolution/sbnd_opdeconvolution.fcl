@@ -1,0 +1,48 @@
+BEGIN_PROLOG
+
+SBNDOpDeconvolution:
+{
+  module_type: "OpDeconvolution"
+
+  OpDaqModuleLabel: "opdaq"
+  Debug: false
+  SaveDecoWaveforms: true
+  FFTSizePow: 14
+  ApplyExpoAvSmooth: true
+  ApplyUnAvSmooth: true
+  ExpoAvSmoothPar: 0.3
+  UnAvNeighbours: 1
+  CustomHypoSignalTauFast: true
+  HypoSignalTauFast: 20. #ns
+  BaselineRMS: 0.3 #after smoothing
+  HypoSignalScale: 0.3
+  PMTChargeToADC: 51.9 #is -11.1927 for ideal SER, -51.9 for test bench
+  DecoWaveformPrecision: 0.01
+
+  #Raw waveform baseline estimation
+  UseBaselineMode: true
+  BaselineModePset: {
+    MinADC: 7000
+    MaxADC: 9000
+  }
+  DecoBaselinePset: {
+    BeamGateSamples: 1
+    DiffADCCounts: 2
+    DiffBetweenGapsThreshold: 2
+    MaxSigma: 1.
+    NPrePostSamples: 5
+    NWaveformsToFile: 10
+    Name: "UB"
+    NumPostSample: 10
+    NumPreSample: 10
+    PedRangeMax: 8002
+    PedRangeMin: 7998
+    SampleSize: 50
+    Threshold: 1.4
+    Verbose: false
+  }
+
+
+}
+
+END_PROLOG

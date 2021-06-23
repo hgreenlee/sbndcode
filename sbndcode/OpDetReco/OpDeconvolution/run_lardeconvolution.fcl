@@ -1,0 +1,52 @@
+#include "simulationservices_sbnd.fcl"
+#include "messages_sbnd.fcl"
+
+#include "rootoutput_sbnd.fcl"
+
+#include "sbnd_opdeconvolution.fcl"
+#include "larfft.fcl"
+
+
+process_name: DecoReco
+
+services:
+{
+	@table::sbnd_simulation_services
+	TFileService: {fileName: "lardeconvolution_sbnd_hists.root"}
+}
+
+
+source:
+{
+	module_type: RootInput
+	maxEvents: 10
+}
+
+
+
+physics:
+{
+	producers:
+	{
+		opdeco:   @local::SBNDOpDeconvolution
+	}
+
+	reco: [opdeco]
+
+	stream1: [out1]
+
+	trigger_paths: [reco]
+
+	end_paths: [stream1]
+}
+
+
+outputs:
+{
+  out1:
+  {
+		module_type: RootOutput
+    fileName:    "opdeco-art.root"
+    dataTier:    "reconstructed"
+  }
+}
