@@ -21,6 +21,7 @@ art_make(
          ${CLHEP}
          ${ROOT_BASIC_LIB_LIST}
          ${ROOT_CORE}
+	 sbndcode_OpDetReco_OpDeconvolution
 
    MODULE_LIBRARIES
          sbndcode_OpDetSim

@@ -1,4 +1,5 @@
 #include "ophitconfig_sbnd.fcl"
+#include "sbnd_opdeconvolution.fcl"
 
 BEGIN_PROLOG
 
@@ -17,6 +18,11 @@ sbnd_ophit_finder:
   reco_man:       @local::standard_preco_manager
   HitAlgoPset:    @local::sbnd_opreco_hit_slidingwindow
   PedAlgoPset:    @local::sbnd_opreco_pedestal_rmsslider
+
+  OpDecoPset:     @local::SBNDOpDeconvolution
+  ApplyDeconvolution: false
+  SaveDecoWaveforms: false
+  UseStartTime: false
 }
 
 #

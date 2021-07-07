@@ -40,6 +40,7 @@
 #include "canvas/Utilities/Exception.h"
 
 #include "sbndcode/OpDetSim/sbndPDMapAlg.hh"
+#include "sbndcode/OpDetReco/OpDeconvolution/OpDeconvolution.hh"
 // #include "sbndcode/OpDetReco/OpFlash/FlashFinder/FlashFinderFMWKInterface.h"
 
 
@@ -82,8 +83,13 @@ namespace opdet {
     pmtana::PMTPulseRecoBase* fThreshAlg;
     pmtana::PMTPedestalBase*  fPedAlg;
 
+
     Float_t  fHitThreshold;
     unsigned int fMaxOpChannel;
+    bool fUseStartTime;
+    bool fApplyDeconvolution;
+    bool fSaveDecoWaveforms;
+    opdet::OpDeconvolution *fOpDecoAlg;
 
     calib::IPhotonCalibrator const* fCalib = nullptr;
 
@@ -108,6 +114,7 @@ namespace opdet {
     fInputModule   = pset.get< std::string >("InputModule");
     fGenModule     = pset.get< std::string >("GenModule");
     fInputLabels   = pset.get< std::vector< std::string > >("InputLabels");
+    fUseStartTime   = pset.get< bool >("UseStartTime", false);
 
     for (auto const& ch : pset.get< std::vector< unsigned int > >
       ("ChannelMasks", std::vector< unsigned int >()))
@@ -173,10 +180,18 @@ namespace opdet {
       << "Cannot find implementation for "
     << pedAlgName << " algorithm.\n";
 
-    produces< std::vector< recob::OpHit > >();
-
     fPulseRecoMgr.AddRecoAlgo(fThreshAlg);
     fPulseRecoMgr.SetDefaultPedAlgo(fPedAlg);
+
+    produces< std::vector< recob::OpHit > >();
+
+    // Initialize deconvolution
+    fApplyDeconvolution   = pset.get< bool >("ApplyDeconvolution", false);
+    fSaveDecoWaveforms   = pset.get< bool >("SaveDecoWaveforms", false);
+    auto const opdeco_pset = pset.get< fhicl::ParameterSet >("OpDecoPset");
+    fOpDecoAlg = new opdet::OpDeconvolution(opdeco_pset);
+    if(fSaveDecoWaveforms)
+      produces< std::vector< raw::OpDetWaveform > >();
 
   }
 
@@ -201,6 +216,10 @@ namespace opdet {
     // These is a temporary storage pointer
     std::unique_ptr< std::vector< recob::OpHit > >
     HitPtr(new std::vector< recob::OpHit >);
+
+    //Storage for deconvolved signal
+    std::unique_ptr< std::vector< raw::OpDetWaveform > >
+    DecoWfPtr(new std::vector< raw::OpDetWaveform >);
 
     std::vector< const sim::BeamGateInfo* > beamGateArray;
     try
@@ -234,7 +253,8 @@ namespace opdet {
                    geometry,
                    fHitThreshold,
                    clockData,
-                   calibrator);
+                   calibrator,
+		   fUseStartTime);
     } else {
 
       // Reserve a large enough array
@@ -267,6 +287,9 @@ namespace opdet {
         }
       }
 
+      //Run Deconvolution
+      WaveformVector=fOpDecoAlg->RunDeconvolution(WaveformVector);
+
       RunHitFinder(WaveformVector,
                    *HitPtr,
                    fPulseRecoMgr,
@@ -274,12 +297,18 @@ namespace opdet {
                    geometry,
                    fHitThreshold,
                    clockData,
-                   calibrator);
+                   calibrator,
+		               fUseStartTime);
       // for (auto h : *HitPtr)
       //   std::cout << "> ophit time " << h.PeakTime()
       //             << ", corrected " << h.PeakTime() - clockData.TriggerTime()
       //             << ", area " << h.Area()
       //             << ", pe " << h.PE() << std::endl;
+      if(fSaveDecoWaveforms)
+        for (auto & wf : WaveformVector) {
+          (*DecoWfPtr).emplace_back( wf.TimeStamp(), wf.ChannelNumber(),
+                std::vector<short unsigned int> (wf.Waveform().begin(), wf.Waveform().end()) );
+        }
     }
 
     // Now correct the time. Unfortunately, there are no setter methods for OpHits,
@@ -297,6 +326,8 @@ namespace opdet {
     }
     // Store results into the event
     evt.put(std::move(HitPtrFinal));
+    if(fSaveDecoWaveforms)
+      evt.put( std::move(DecoWfPtr) );
 
   }
 
