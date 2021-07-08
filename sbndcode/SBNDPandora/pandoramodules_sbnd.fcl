@@ -111,6 +111,7 @@ sbnd_incremental_pandoraModularShowerCreation.ShowerFinderTools: [
   @local::showerpcadirection,
   @local::showerlengthpercentile,
   @local::sbnd_showernumelectronsenergy,
+  @local::shower3dcylindertrackhitfinder,
   @local::sbnd_showerunidirectiondedx,
   @local::showerincrementaltrackhitfinder,
   @local::showerpandoraslidingfittrackfinder,
@@ -118,9 +119,9 @@ sbnd_incremental_pandoraModularShowerCreation.ShowerFinderTools: [
   @local::showertracktrajpointdirection,
   @local::showerdirectiontopologydecision
 ]
-sbnd_incremental_pandoraModularShowerCreation.ShowerFinderTools[8].ShowerDirectionOutputLabel: "TrajDirection"
-sbnd_incremental_pandoraModularShowerCreation.ShowerFinderTools[9].FirstDirectionInputLabel: "TrajDirection"
-sbnd_incremental_pandoraModularShowerCreation.ShowerFinderTools[9].SecondDirectionInputLabel: "ShowerDirection"
+sbnd_incremental_pandoraModularShowerCreation.ShowerFinderTools[9].ShowerDirectionOutputLabel: "TrajDirection"
+sbnd_incremental_pandoraModularShowerCreation.ShowerFinderTools[10].FirstDirectionInputLabel: "TrajDirection"
+sbnd_incremental_pandoraModularShowerCreation.ShowerFinderTools[10].SecondDirectionInputLabel: "ShowerDirection"
 
 sbnd_cheat_pandoraModularShowerCreation.ShowerFinderTools: [
   @local::sbnd_showerstartpositioncheater,
