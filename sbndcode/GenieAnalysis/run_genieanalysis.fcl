@@ -1,0 +1,58 @@
+
+BEGIN_PROLOG
+
+genie_analyzer: 
+{
+    module_type: "GenieAnalyzer"
+
+}
+
+END_PROLOG
+
+###################################################################################
+
+
+process_name: GenieAnalysis
+
+services:
+{
+  scheduler:               {defaultExceptions: false}
+  TFileService:            {fileName: "genie_tree.root"}
+
+}
+
+# Configuration
+
+
+source:
+{
+  module_type: RootInput
+  maxEvents:  -1
+  fileNames: []
+}
+
+outputs:
+{
+ out1:
+ {
+   module_type: RootOutput
+   fileName: "%ifb_%tc_decayfinder.root"
+   dataTier: "reconstructed"
+   compressionLevel: 1
+   saveMemoryObjectThreshold: 0
+ }
+}
+
+physics:
+{
+ producers:{}
+ analyzers: 
+ {
+    geniereco:                    @local::genie_analyzer
+ }
+
+ prod: []    
+ ana:  [geniereco]
+ trigger_paths: []
+ end_paths: [ ana ]
+}
