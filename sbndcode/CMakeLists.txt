@@ -20,6 +20,7 @@ add_subdirectory(CosmicId)
 add_subdirectory(ShowerAna)
 add_subdirectory(Commissioning)
 add_subdirectory(GenieAnalysis)
+add_subdirectory(myanalysis)
 
 # subdirectory for gallery stuff
 add_subdirectory(gallery)
