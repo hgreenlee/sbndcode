@@ -57,7 +57,7 @@ BEGIN_PROLOG
 # sourec of geometry description
 #
 sbnd_geo_source: {
-  Name:  "sbndv01_05"
+  Name:  "sbnd_v01_05"
   GDML:  "sbnd_v01_05.gdml" #"sbnd_v02_00.gdml"
   ROOT:  "sbnd_v01_05.gdml" #"sbnd_v02_00.gdml"
 } # sbnd_geo_source
