@@ -35,9 +35,6 @@
 #include "art/Framework/Services/Registry/ActivityRegistry.h"
 #include "art/Framework/Services/Registry/ServiceMacros.h"
 #include "lardata/Utilities/SignalShaping.h"
-#include "larcore/Geometry/Geometry.h"
-#include "larcorealg/Geometry/TPCGeo.h"
-#include "larcorealg/Geometry/PlaneGeo.h"
 namespace detinfo { class DetectorClocksData; }
 
 #include "TF1.h"
@@ -95,7 +92,6 @@ namespace util {
     void init() const{const_cast<SignalShapingServiceSBND*>(this)->init();}
     void init();
 
-
     // Calculate response functions.
     // Copied from SimWireSBND.
 
@@ -106,9 +102,6 @@ namespace util {
 
 
     void SetFilters();
-    
-    // Calculate view corresponding to channel
-    geo::View_t GetView(unsigned int chan) const;
 
     // Attributes.
 
