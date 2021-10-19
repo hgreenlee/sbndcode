@@ -396,7 +396,7 @@
   <!-- Re-run the PFO Characterisation to recalculate the scores after recursive mop up -->
   <algorithm type = "LArBdtPfoCharacterisation">
     <TrainingSetMode>true</TrainingSetMode>
-    <TrainingOutputFileName>BNBNuePfoCharTraining</TrainingOutputFileName>
+    <TrainingOutputFileName>BNBPfoCharTraining</TrainingOutputFileName>
     <MCParticleListName>Input</MCParticleListName>
     <CaloHitListName>CaloHitList2D</CaloHitListName>
     <TrackPfoListName>TrackParticles3D</TrackPfoListName>
