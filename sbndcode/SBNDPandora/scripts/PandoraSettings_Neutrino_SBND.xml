@@ -318,9 +318,9 @@
     <TrackPfoListName>TrackParticles3D</TrackPfoListName>
     <ShowerPfoListName>ShowerParticles3D</ShowerPfoListName>
     <UseThreeDInformation>true</UseThreeDInformation>
-    <MvaFileName>/sbnd/app/users/lnguyen/larsoft/srcs/sbndcode/sbndcode/SBNDPandora/scripts/PFOCharBDT_v09_34_00_Lan.xml</MvaFileName>
+    <MvaFileName>PFOCharBDT_v09_34_00_Lan.xml</MvaFileName>
     <MvaName>PfoCharBDT</MvaName>
-    <MvaFileNameNoChargeInfo>/sbnd/app/users/lnguyen/larsoft/srcs/sbndcode/sbndcode/SBNDPandora/scripts/PFOCharBDT_v09_34_00_Lan.xml</MvaFileNameNoChargeInfo>
+    <MvaFileNameNoChargeInfo>PFOCharBDT_v09_34_00_Lan.xml</MvaFileNameNoChargeInfo>
     <MvaNameNoChargeInfo>PfoCharBDTNoChargeInfo</MvaNameNoChargeInfo>
     <FeatureTools>
       <tool type = "LArThreeDLinearFitFeatureTool"/>
@@ -398,9 +398,9 @@
     <TrackPfoListName>TrackParticles3D</TrackPfoListName>
     <ShowerPfoListName>ShowerParticles3D</ShowerPfoListName>
     <UseThreeDInformation>true</UseThreeDInformation>
-    <MvaFileName>/sbnd/app/users/lnguyen/larsoft/srcs/sbndcode/sbndcode/SBNDPandora/scripts/PFOCharBDT_v09_34_00_Lan.xml</MvaFileName>
+    <MvaFileName>PFOCharBDT_v09_34_00_Lan.xml</MvaFileName>
     <MvaName>PfoCharBDT</MvaName>
-    <MvaFileNameNoChargeInfo>/sbnd/app/users/lnguyen/larsoft/srcs/sbndcode/sbndcode/SBNDPandora/scripts/PFOCharBDT_v09_34_00_Lan.xml</MvaFileNameNoChargeInfo>
+    <MvaFileNameNoChargeInfo>PFOCharBDT_v09_34_00_Lan.xml</MvaFileNameNoChargeInfo>
     <MvaNameNoChargeInfo>PfoCharBDTNoChargeInfo</MvaNameNoChargeInfo>
     <FeatureTools>
       <tool type = "LArThreeDLinearFitFeatureTool"/>
