@@ -1,5 +1,5 @@
 <AdaBoostDecisionTree>
-    <Name>PFOCharBDT</Name>
+    <Name>PfoCharBDT</Name>
     <Timestamp>2021-11-05_15:38:19</Timestamp>
     <DecisionTree>
         <TreeIndex>0</TreeIndex>
@@ -39041,7 +39041,7 @@
     </DecisionTree>
 </AdaBoostDecisionTree>
 <AdaBoostDecisionTree>
-    <Name>PFOCharBDT</Name>
+    <Name>PfoCharBDTNoChargeInfo</Name>
     <Timestamp>2021-11-08_14:21:59</Timestamp>
     <DecisionTree>
         <TreeIndex>0</TreeIndex>
