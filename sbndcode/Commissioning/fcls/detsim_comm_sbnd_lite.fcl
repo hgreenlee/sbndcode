@@ -1,0 +1,19 @@
+#-------------------------------------------------------------------
+#
+# Name: detsim_comm_sbnd_lite.fcl
+#
+# Purpose: Lite version of detsim_comm_sbnd.fcl
+#
+# Created: 28-Mar-2022  H. Greenlee
+#
+# Automatically generated.
+#
+#-------------------------------------------------------------------
+
+#include "detsim_comm_sbnd.fcl"
+
+# Drop truth data products.
+
+outputs.out1.saveMemoryObjectThreshold: 0
+outputs.out1.outputCommands: [ "keep *_*_*_*",
+                               "drop sim::SimPhotonsLites_*_*_*" ]
