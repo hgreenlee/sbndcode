@@ -17,9 +17,9 @@
 
 BEGIN_PROLOG
 
-detsim_drops: [ @sequence::detsim_drops,
-                "drop raw::RawDigits_*_*_*",
-                "drop raw::OpDetWaveforms_*_*_*" ]
+reco_drops: [ @sequence::detsim_drops,
+              "drop raw::RawDigits_*_*_*",
+              "drop raw::OpDetWaveforms_*_*_*" ]
 
 END_PROLOG
 
