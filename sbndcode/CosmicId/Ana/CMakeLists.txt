@@ -39,11 +39,11 @@ set(
                            larreco::RecoAlg
         )
 
-cet_build_plugin(CosmicIdAna art::module SOURCE CosmicIdAna_module.cc LIBRARIES ${MODULE_LIBRARIES})
-cet_build_plugin(CosmicIdTree art::module SOURCE CosmicIdTree_module.cc LIBRARIES ${MODULE_LIBRARIES})
-cet_build_plugin(CRTHitCosmicIdAna art::module SOURCE CRTHitCosmicIdAna_module.cc LIBRARIES ${MODULE_LIBRARIES})
-cet_build_plugin(CRTTrackCosmicIdAna art::module SOURCE CRTTrackCosmicIdAna_module.cc LIBRARIES ${MODULE_LIBRARIES})
-cet_build_plugin(StoppingCosmicIdAna art::module SOURCE StoppingCosmicIdAna_module.cc LIBRARIES ${MODULE_LIBRARIES})
+cet_build_plugin(CosmicIdAna art::module LIBRARIES PRIVATE ${MODULE_LIBRARIES})
+cet_build_plugin(CosmicIdTree art::module LIBRARIES PRIVATE ${MODULE_LIBRARIES})
+cet_build_plugin(CRTHitCosmicIdAna art::module LIBRARIES PRIVATE ${MODULE_LIBRARIES})
+cet_build_plugin(CRTTrackCosmicIdAna art::module LIBRARIES PRIVATE ${MODULE_LIBRARIES})
+cet_build_plugin(StoppingCosmicIdAna art::module LIBRARIES PRIVATE ${MODULE_LIBRARIES})
 
 install_headers()
 install_fhicl()

@@ -28,7 +28,7 @@ set(MODULE_LIBRARIES
 
 )
 
-cet_build_plugin(SBNDPDSAnalyzer art::Module SOURCE SBNDPDSAnalyzer_module.cc LIBRARIES ${MODULE_LIBRARIES} )
+cet_build_plugin(SBNDPDSAnalyzer art::Module LIBRARIES PRIVATE ${MODULE_LIBRARIES} )
 
 add_subdirectory(job)
 

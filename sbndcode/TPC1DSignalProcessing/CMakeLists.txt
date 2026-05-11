@@ -53,11 +53,11 @@ set (TOOL_LIBRARIES
 
 
 
-cet_build_plugin(CalWireSBND art::module SOURCE CalWireSBND_module.cc LIBRARIES ${MODULE_LIBRARIES})
+cet_build_plugin(CalWireSBND art::module SOURCE CalWireSBND_module.cc LIBRARIES PRIVATE ${MODULE_LIBRARIES})
 
-cet_build_plugin(HitEfficiencyAna art::module SOURCE HitEfficiencyAna_module.cc LIBRARIES ${MODULE_LIBRARIES})
+cet_build_plugin(HitEfficiencyAna art::module SOURCE HitEfficiencyAna_module.cc LIBRARIES PRIVATE ${MODULE_LIBRARIES})
 
-cet_build_plugin(ROIFinderStandardSBND art::tool SOURCE ROIFinderStandardSBND_tool.cc LIBRARIES ${TOOL_LIBRARIES})
+cet_build_plugin(ROIFinderStandardSBND art::tool SOURCE ROIFinderStandardSBND_tool.cc LIBRARIES PRIVATE ${TOOL_LIBRARIES})
 
 install_headers()
 install_fhicl()

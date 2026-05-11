@@ -4,18 +4,18 @@ art_make_library(
                         larsim::Utils
                         ROOT::Graf3d
                         sbnobj::SBND_CRT
-                        sbndcode_CRT_CRTBackTracker
+                        sbndcode::CRT_CRTBackTracker
                         lardata::DetectorPropertiesService
 )
 
-simple_plugin(
-              CRTEventDisplay module
-              sbndcode_CRT_CRTEventDisplay
+cet_build_plugin(CRTEventDisplay art::EDAnalyzer
+                 LIBRARIES PRIVATE
+                 sbndcode::CRT_CRTEventDisplay
 )
 
-simple_plugin(
-              CRTChannelMappingEventDisplay module
-              sbndcode_CRT_CRTEventDisplay
+cet_build_plugin(CRTChannelMappingEventDisplay art::EDAnalyzer
+                 LIBRARIES PRIVATE
+                 sbndcode::CRT_CRTEventDisplay
 )
 
 install_fhicl()

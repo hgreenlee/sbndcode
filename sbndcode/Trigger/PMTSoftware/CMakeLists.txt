@@ -23,10 +23,10 @@ set(
                     ROOT::Tree
 )
 
-cet_build_plugin(MetricAnalyzer art::module SOURCE MetricAnalyzer_module.cc LIBRARIES ${MODULE_LIBRARIES})
-cet_build_plugin(MetricFilter   art::module SOURCE MetricFilter_module.cc   LIBRARIES ${MODULE_LIBRARIES})
-cet_build_plugin(PMTMetricProducer art::module SOURCE PMTMetricProducer_module.cc LIBRARIES ${MODULE_LIBRARIES})
-cet_build_plugin(PMTMCMetricProducer art::module SOURCE PMTMCMetricProducer_module.cc LIBRARIES ${MODULE_LIBRARIES})
+cet_build_plugin(MetricAnalyzer art::module LIBRARIES PRIVATE ${MODULE_LIBRARIES})
+cet_build_plugin(MetricFilter   art::module LIBRARIES PRIVATE ${MODULE_LIBRARIES})
+cet_build_plugin(PMTMetricProducer art::module LIBRARIES PRIVATE ${MODULE_LIBRARIES})
+cet_build_plugin(PMTMCMetricProducer art::module LIBRARIES PRIVATE ${MODULE_LIBRARIES})
 
 add_subdirectory(fcls)
 

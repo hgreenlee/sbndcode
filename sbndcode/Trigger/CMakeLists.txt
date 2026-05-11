@@ -42,8 +42,8 @@ add_subdirectory(CRT)
 add_subdirectory(PMT)
 add_subdirectory(PMTSoftware)
 
-cet_build_plugin(ArtdaqFragmentProducer art::module SOURCE ArtdaqFragmentProducer_module.cc LIBRARIES ${MODULE_LIBRARIES})
-cet_build_plugin(MetricProducer art::module SOURCE MetricProducer_module.cc LIBRARIES ${MODULE_LIBRARIES})
+cet_build_plugin(ArtdaqFragmentProducer art::module LIBRARIES PRIVATE ${MODULE_LIBRARIES})
+cet_build_plugin(MetricProducer art::module LIBRARIES PRIVATE ${MODULE_LIBRARIES})
 
 install_headers()
 install_fhicl()

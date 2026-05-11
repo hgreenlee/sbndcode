@@ -17,8 +17,8 @@ set(TOOL_LIBRARIES
   wda::wda
 )
 
-cet_build_plugin(NormalizeDriftSQLite art::tool LIBRARIES ${TOOL_LIBRARIES})
-cet_build_plugin(NormalizeYZ art::tool LIBRARIES ${TOOL_LIBRARIES})
+cet_build_plugin(NormalizeDriftSQLite art::tool LIBRARIES PRIVATE ${TOOL_LIBRARIES})
+cet_build_plugin(NormalizeYZ art::tool LIBRARIES PRIVATE ${TOOL_LIBRARIES})
 
 install_headers()
 install_fhicl()

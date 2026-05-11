@@ -38,7 +38,7 @@ set(	MODULE_LIBRARIES
 			Eigen3::Eigen
 )
 
-cet_build_plugin(TPCPMTBarycenterMatchProducer art::module SOURCE TPCPMTBarycenterMatching_module.cc LIBRARIES ${MODULE_LIBRARIES})
+cet_build_plugin(TPCPMTBarycenterMatchProducer art::module REG_SOURCE TPCPMTBarycenterMatching_module.cc LIBRARIES PRIVATE ${MODULE_LIBRARIES})
 
 add_subdirectory(job)
 

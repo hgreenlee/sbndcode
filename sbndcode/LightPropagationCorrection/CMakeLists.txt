@@ -28,8 +28,8 @@ set (
     sbndcode_OpDetSim
 )
 
-cet_build_plugin(LightPropagationCorrection art::module SOURCE LightPropagationCorrection_module.cc LIBRARIES ${MODULE_LIBRARIES})
-cet_build_plugin(LightPropagationCorrectionAna art::module SOURCE LightPropagationCorrectionAna_module.cc LIBRARIES ${MODULE_LIBRARIES})
+cet_build_plugin(LightPropagationCorrection art::module LIBRARIES PRIVATE ${MODULE_LIBRARIES})
+cet_build_plugin(LightPropagationCorrectionAna art::module LIBRARIES PRIVATE ${MODULE_LIBRARIES})
 
 install_fhicl()
 install_source()

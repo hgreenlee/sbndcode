@@ -1,4 +1,4 @@
-cet_build_plugin(SpaceChargeServiceSBND art::service SOURCE SpaceChargeServiceSBND_service.cc LIBRARIES
+cet_build_plugin(SpaceChargeServiceSBND art::service LIBRARIES
               sbndcode_SpaceCharge
 	      art::Framework_Core
 	      art::Framework_Principal

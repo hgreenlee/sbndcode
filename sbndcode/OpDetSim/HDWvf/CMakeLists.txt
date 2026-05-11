@@ -4,7 +4,7 @@ set(
          CLHEP::CLHEP
 )
 
-cet_build_plugin(HDOpticalWaveforms art::tool SOURCE HDOpticalWaveforms_tool.cc LIBRARIES ${TOOL_LIBRARIES})
+cet_build_plugin(HDOpticalWaveforms art::tool LIBRARIES PRIVATE ${TOOL_LIBRARIES})
 
 install_headers()
 install_fhicl()

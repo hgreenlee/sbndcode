@@ -1,4 +1,5 @@
 cet_build_plugin(FilterChoppy art::module 
+        LIBRARIES PRIVATE
         lardataobj::RecoBase
         ROOT::Core
         ROOT::Tree

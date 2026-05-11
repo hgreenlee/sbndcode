@@ -32,7 +32,7 @@ set(	MODULE_LIBRARIES
 			ROOT::Core
                         ROOT::Tree
 )
-cet_build_plugin(SBNDFlashAssAna art::module LIBRARIES ${MODULE_LIBRARIES})
+cet_build_plugin(SBNDFlashAssAna art::module LIBRARIES PRIVATE ${MODULE_LIBRARIES})
 
 install_headers()
 install_source()

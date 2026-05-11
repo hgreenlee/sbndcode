@@ -1,5 +1,5 @@
 
-cet_build_plugin( SBNDCRTGeometryTest art::module LIBRARIES
+cet_build_plugin( SBNDCRTGeometryTest art::module LIBRARIES PRIVATE
   larcorealg::Geometry
   larcore::Geometry_Geometry_service
   art::Framework_Core

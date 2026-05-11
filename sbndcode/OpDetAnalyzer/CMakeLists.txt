@@ -19,7 +19,7 @@ MODULE_LIBRARIES
   lardataobj::Simulation
   sbndcode_OpDetSim
 )
-cet_build_plugin(OpDetAnalyzer art::module SOURCE OpDetAnalyzer_module.cc LIBRARIES ${MODULE_LIBRARIES})
+cet_build_plugin(OpDetAnalyzer art::module LIBRARIES PRIVATE ${MODULE_LIBRARIES})
 
 install_fhicl()
 install_source()

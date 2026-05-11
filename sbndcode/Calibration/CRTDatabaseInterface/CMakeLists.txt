@@ -19,7 +19,7 @@ file(GLOB lib_srcs *.cxx)
 
 art_make_library( SOURCE ${lib_srcs} LIBRARIES PUBLIC ${LIB_LIBRARIES})
 
-cet_build_plugin( CRTCalibrationDatabaseService art::service LIBRARIES PUBLIC ${SERVICE_LIBRARIES})
+cet_build_plugin( CRTCalibrationDatabaseService art::service LIBRARIES PRIVATE ${SERVICE_LIBRARIES})
 
 install_headers()
 install_fhicl()

@@ -31,7 +31,7 @@ set     ( TOOL_LIBRARIES lardataobj::RecoBase
                          ROOT::Minuit
                          Eigen3::Eigen
         )
-cet_build_plugin(TrackHitEfficiencyAnalysis art::tool SOURCE TrackHitEfficiencyAnalysis_tool.cc LIBRARIES ${TOOL_LIBRARIES})
+cet_build_plugin(TrackHitEfficiencyAnalysis art::tool LIBRARIES PRIVATE ${TOOL_LIBRARIES})
 
 install_headers()
 install_source()

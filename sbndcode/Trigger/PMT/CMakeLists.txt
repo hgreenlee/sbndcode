@@ -32,9 +32,9 @@ set(
                     ROOT::Tree
 		  )
 
-cet_build_plugin(pmtArtdaqFragmentProducer art::module SOURCE pmtArtdaqFragmentProducer_module.cc LIBRARIES ${MODULE_LIBRARIES})
-cet_build_plugin(pmtSoftwareTriggerProducer art::module SOURCE pmtSoftwareTriggerProducer_module.cc LIBRARIES ${MODULE_LIBRARIES})
-cet_build_plugin(pmtTriggerProducer art::module SOURCE pmtTriggerProducer_module.cc LIBRARIES ${MODULE_LIBRARIES})
+cet_build_plugin(pmtArtdaqFragmentProducer art::module LIBRARIES PRIVATE ${MODULE_LIBRARIES})
+cet_build_plugin(pmtSoftwareTriggerProducer art::module LIBRARIES PRIVATE ${MODULE_LIBRARIES})
+cet_build_plugin(pmtTriggerProducer art::module LIBRARIES PRIVATE ${MODULE_LIBRARIES})
 
 
 install_headers()

@@ -19,7 +19,7 @@ set(
          ${ROOT_BASIC_LIB_LIST}
 )
 
-cet_build_plugin(PMTPulseOscillation art::module SOURCE PMTPulseOscillation_module.cc LIBRARIES ${MODULE_LIBRARIES})
+cet_build_plugin(PMTPulseOscillation art::module LIBRARIES PRIVATE ${MODULE_LIBRARIES})
 
 install_headers()
 install_fhicl()
